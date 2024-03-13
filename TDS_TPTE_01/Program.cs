@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http.Json;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,10 @@ class Program
     // Método principal que inicia a aplicação
     static void Main(string[] args)
     {
+
+        // Inicialização do objeto Product para teste
+        var product = new Product { Id = 1, Name = "Exemplo", Description = "Descrição", Price = 10.99m, Quantity = 5 };
+
         // Cria uma lista em memória para armazenar os produtos
         var products = new List<Product>();
 
@@ -48,7 +53,8 @@ class Program
         app.MapPost("/products", (Product product) =>
         {
             // Gera um novo ID para o produto
-            product.Id = products.Count + 1;
+            var newId = products.Count > 0 ? products.Max(p => p.Id) + 1 : 1;
+            product = product with { Id = newId }; // Atribui o novo ID ao produto
             // Adiciona o produto à lista
             products.Add(product);
             // Retorna 201 Created com o produto adicionado
@@ -66,10 +72,14 @@ class Program
             }
 
             // Atualiza as propriedades do produto
-            existingProduct.Name = updatedProduct.Name;
-            existingProduct.Description = updatedProduct.Description;
-            existingProduct.Price = updatedProduct.Price;
-            existingProduct.Quantity = updatedProduct.Quantity;
+            existingProduct = existingProduct with
+            {
+                Name = updatedProduct.Name,
+                Description = updatedProduct.Description,
+                Price = updatedProduct.Price,
+                Quantity = updatedProduct.Quantity
+            };
+
 
             // Retorna o produto atualizado
             return Results.Ok(existingProduct);
