@@ -14,95 +14,95 @@ class Program
     {
 
         // Inicialização do objeto Product para teste
-        var product = new Product { Id = 1, Name = "Exemplo", Description = "Descrição", Price = 10.99m, Quantity = 5 };
+        var produto = new Produto { Id = 1, Nome = "Exemplo", Descricao = "Descrição", Preco = 10.99m, Quantidade = 5 };
 
         // Cria uma lista em memória para armazenar os produtos
-        var products = new List<Product>();
+        var produtos = new List<Produto>();
 
         // Cria um construtor para a aplicação web
-        var builder = WebApplication.CreateBuilder(args);
+        var construtor = WebApplication.CreateBuilder(args);
 
         // Adiciona os serviços necessários para a aplicação
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        construtor.Services.AddEndpointsApiExplorer();
+        construtor.Services.AddSwaggerGen();
 
         // Cria a aplicação
-        var app = builder.Build();
+        var app = construtor.Build();
 
         // Define as rotas e a lógica para cada rota
-        app.MapGet("/products", () =>
+        app.MapGet("/produtos", () =>
         {
             // Retorna todos os produtos como JSON
-            return Results.Ok(products);
+            return Results.Ok(produtos);
         });
 
-        app.MapGet("/products/{id}", (int id) =>
+        app.MapGet("/produtos/{id}", (int id) =>
         {
             // Busca o produto pelo ID
-            var product = products.FirstOrDefault(p => p.Id == id);
-            if (product == null)
+            var produto = produtos.FirstOrDefault(p => p.Id == id);
+            if (produto == null)
             {
                 // Se não encontrar, retorna 404 Not Found
                 return Results.NotFound();
             }
 
             // Retorna o produto encontrado
-            return Results.Ok(product);
+            return Results.Ok(produto);
         });
 
-        app.MapPost("/products", (Product product) =>
+        app.MapPost("/produtos", (Produto produto) =>
         {
             // Gera um novo ID para o produto
-            var newId = products.Count > 0 ? products.Max(p => p.Id) + 1 : 1;
-            product = product with { Id = newId }; // Atribui o novo ID ao produto
+            var novoId = produtos.Count > 0 ? produtos.Max(p => p.Id) + 1 : 1;
+            produto = produto with { Id = novoId }; // Atribui o novo ID ao produto
             // Adiciona o produto à lista
-            products.Add(product);
+            produtos.Add(produto);
             // Retorna 201 Created com o produto adicionado
-            return Results.Created($"/products/{product.Id}", product);
+            return Results.Created($"/produtos/{produto.Id}", produto);
         });
 
-        app.MapPut("/products/{id}", (int id, Product updatedProduct) =>
+        app.MapPut("/produtos/{id}", (int id, Produto produtoAtualizado) =>
         {
             // Busca o produto pelo ID
-            var existingProduct = products.FirstOrDefault(p => p.Id == id);
-            if (existingProduct == null)
+            var produtoExistente = produtos.FirstOrDefault(p => p.Id == id);
+            if (produtoExistente == null)
             {
                 // Se não encontrar, retorna 404 Not Found
                 return Results.NotFound();
             }
 
             // Atualiza as propriedades do produto
-            existingProduct = existingProduct with
+            produtoExistente = produtoExistente with
             {
-                Name = updatedProduct.Name,
-                Description = updatedProduct.Description,
-                Price = updatedProduct.Price,
-                Quantity = updatedProduct.Quantity
+                Nome = produtoAtualizado.Nome,
+                Descricao = produtoAtualizado.Descricao,
+                Preco = produtoAtualizado.Preco,
+                Quantidade = produtoAtualizado.Quantidade
             };
 
 
             // Retorna o produto atualizado
-            return Results.Ok(existingProduct);
+            return Results.Ok(produtoExistente);
         });
 
-        app.MapDelete("/products/{id}", (int id) =>
+        app.MapDelete("/produtos/{id}", (int id) =>
         {
             // Busca o produto pelo ID
-            var product = products.FirstOrDefault(p => p.Id == id);
-            if (product == null)
+            var produto = produtos.FirstOrDefault(p => p.Id == id);
+            if (produto == null)
             {
                 // Se não encontrar, retorna 404 Not Found
                 return Results.NotFound();
             }
 
             // Remove o produto da lista
-            products.Remove(product);
+            produtos.Remove(produto);
 
             // Retorna 204 No Content
             return Results.NoContent();
         });
 
-        // Adiciona o middleware para habilitar Swagger
+        // Adiciona o middleware para habilitar o Swagger
         app.UseSwagger();
         app.UseSwaggerUI();
 
@@ -112,11 +112,11 @@ class Program
 }
 
 // Classe que representa um produto
-record Product
+record Produto
 {
     public int Id { get; init; }
-    public string? Name { get; init; }
-    public string? Description { get; init; }
-    public decimal Price { get; init; }
-    public int Quantity { get; init; }
+    public string? Nome { get; init; }
+    public string? Descricao { get; init; }
+    public decimal Preco { get; init; }
+    public int Quantidade { get; init; }
 }
