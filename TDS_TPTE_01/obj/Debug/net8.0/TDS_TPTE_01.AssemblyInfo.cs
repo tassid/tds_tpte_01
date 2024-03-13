@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TDS_TPTE_01")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+eba72ca4f8dfcd5fd896da6277d8514bb4ada6d7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+29eb1e2e8249a64451f8bc5b0d1fb280712b88e3")]
 [assembly: System.Reflection.AssemblyProductAttribute("TDS_TPTE_01")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TDS_TPTE_01")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
